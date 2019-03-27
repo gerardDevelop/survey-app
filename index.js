@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+
 const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const uuidv4 = require('uuid/v4');
+const mongoose = require('mongoose');
 
 console.log("Data: " + Date.now().toString());
 
@@ -11,7 +12,7 @@ console.log("Data: " + Date.now().toString());
 mongoose
   .connect(
     //'mongodb://mongo:27017/express-mongo',
-    'mongodb://localhost:27017/express-mongo',
+    'mongodb://mongo:27017/express-mongo',
     { useNewUrlParser: true }
   )
   .then(() => console.log('MongoDB Connected'))
