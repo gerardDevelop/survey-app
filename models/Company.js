@@ -7,7 +7,8 @@ const CompanySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-
 });
 
-module.exports = Company = mongoose.model(CompanySchema);
+var CompanyModel = mongoose.model('Company', CompanySchema);
+
+module.exports = CompanyModel;

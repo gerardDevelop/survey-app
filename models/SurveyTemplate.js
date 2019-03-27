@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
-const getDateString = require('../utils/GetDateString');
+// grab the things we need
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-// DB schemas
-const SurveyTemplateSchema = new mongoose.Schema({
+// create a schema
+var SurveyTemplateSchema = new Schema({
   templateId: {
     type: Number,
-    required: true
+    required: true,
   },
   data: {
     type: Object,
@@ -20,4 +21,26 @@ const SurveyTemplateSchema = new mongoose.Schema({
   }
 });
 
-module.exports = Template = mongoose.model(SurveyTemplateSchema);
+// the schema is useless so far
+// we need to create a model using it
+var SurveyTemplate = mongoose.model('SurveyTemplate', SurveyTemplateSchema);
+
+// make this available to our users in our Node applications
+module.exports = SurveyTemplate;
+
+
+/*
+
+ name: String,
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  admin: Boolean,
+  location: String,
+  meta: {
+    age: Number,
+    website: String
+  },
+  created_at: Date,
+  updated_at: Date
+
+*/

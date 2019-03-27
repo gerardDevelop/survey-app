@@ -10,7 +10,8 @@ console.log("Data: " + Date.now().toString());
 // connect to Mongo daemon
 mongoose
   .connect(
-    'mongodb://mongo:27017/express-mongo',
+    //'mongodb://mongo:27017/express-mongo',
+    'mongodb://localhost:27017/express-mongo',
     { useNewUrlParser: true }
   )
   .then(() => console.log('MongoDB Connected'))
@@ -22,7 +23,7 @@ const SurveyTemplateModel = require('./models/SurveyTemplate');
 
 const VehicleSaleModel = require('./models/VehicleSale');
 
-const companyModel = require('./models/Company'); // ?
+const companyModel = require('./models/Company'); // ? implement this
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,25 +49,28 @@ app.get('/api/tokenSurvey', (req, res) => {
     VehicleSaleModel.findOne({ surveyToken: token }, (err, vehicle) => {
       
       if(vehicle && !vehicle.surveyCompleted) {
-        console.log("retrieved vechicle " + vehicle.stockno + " " + vehicle.makemodel);
+
+        console.log("retrieved vechicle " + vehicle.stockNumber + " " + vehicle.make);
         
         // get templateId
         const templateId = vehicle.templateId;
         
         // get survey template based on id
         SurveyTemplateModel.findOne({ templateId: templateId }, (err, template) => {
-          //res.json({questions: template.data, completed: vehicle.surveyCompleted});
-          res.json({vehicle: vehicle, questions: template.data})
-        });
 
-        //res.json(vehicle);
+          if(template) {
+            res.status(200).json({vehicle: vehicle, questions: template.data})
+          } else if(err) {
+            res.status(500).json(err);
+          }
+        });
       } else if(vehicle && vehicle.surveyCompleted) {
         res.json({
           error: "Survey already completed",
           completed: true          
         });
       } else {
-        res.json({error: "Could not retreive survey"});
+        res.status(404).json({error: "Could not retreive survey"});
       }
     });
   } else {
@@ -136,29 +140,21 @@ app.post('/api/register', (req, res) => {
 
   // authenticate RegToken
   
-
 });
-
 
 /// protection route here ------
 
 app.use((req, res, next) => {
   
   const token = req.header('AuthToken');
-  if(token = "303d1eb2-ddb8-486c-a823-02af2365beb6") {
+
+  console.log("Token = " + token);
+
+  if(token == "abc123") {
     next();
   } else {
-    res.json({err: "No token found"});
+    res.status(401).json({err: "No token found"});
   }
-  /*
-  const token = req.header.authtoken;
-  
-  if(token) {
-    
-  } else {
-    
-  }
-  */
 });
 
 
@@ -168,13 +164,28 @@ app.use((req, res, next) => {
 
 /********** TEMPLATE ROUTE **********/
 
+app.post('/api/another', (req, res) => {
+  console.log("received another request");
+
+  var another = req.body.another;
+
+  console.log("another = " + another);
+
+  res.status(200).json({msg: "success"});
+});
+
 app.post('/api/template', (req, res) => {
   console.log("received post template request");
 
-  const templateId = req.body.TemplateId;
-  const data = JSON.parse(req.body.Data);
-  const description = req.body.Description;
-  const date = req.body.Date;
+  var templateId = req.body.templateid;
+
+  console.log("templateId: " + templateId);
+
+  const data = JSON.parse(req.body.data);
+  const description = req.body.description;
+  const date = req.body.date;
+
+  
 
   // check if templateId already exists,
   SurveyTemplateModel.findOne({ templateId: templateId }, (err, template) => {

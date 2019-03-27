@@ -37,4 +37,7 @@ const VehicleSaleSchema = new mongoose.Schema({
   }
 });
 
-module.exports = Sale = mongoose.model(VehicleSaleSchema);
+var VehicleSaleModel = mongoose.model('VehicleSale', VehicleSaleSchema);
+
+module.exports = VehicleSaleModel;
+
