@@ -28,7 +28,7 @@ const companyModel = require('./models/Company'); // ? implement this
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+
 
 /*
 // Serve the static files from the React app, this may not necessarily be needed
@@ -366,5 +366,12 @@ app.get('*', (req,res) =>{
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 */
+
+
+
+app.use(express.static('public'));
+
+app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log('Server running on port ' + port));
