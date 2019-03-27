@@ -8,8 +8,8 @@ services:
       - "8080:8080"
     volumes:
       - .:/app
-    links:
-      - mongo
+   # links:
+     # - mongo
   #  depends_on:
  #     - mongo
    # environment:
