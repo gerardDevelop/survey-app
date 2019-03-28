@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
+app.get('/', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
 
 /*
 // Serve the static files from the React app, this may not necessarily be needed
