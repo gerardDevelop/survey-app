@@ -216,6 +216,8 @@ class TokenSurvey2 extends Component {
     // question should generate 1 question at a time, and use some incrementor variable to track the current question
     // to be shown
 
+    var toRender = (<></>);
+
     var question = (<></>);
 
     /* -- radio buttons -- 
@@ -238,10 +240,11 @@ class TokenSurvey2 extends Component {
 
       if(currentQuestion.type === "bool") {
         input = (
-          <>
-            <Button color="secondary" size="lg" onClick={(e) => this.onInputClick(false, e)}>No</Button>{' '}
+          <div className="d-flex justify-content-center">
+            <Button color="secondary" size="lg" onClick={(e) => this.onInputClick(false, e)}>No</Button>
+            <div style={{ width: '2.5rem' }}></div>
             <Button color="primary" size="lg" onClick={(e) => this.onInputClick(true, e)}>Yes</Button>
-          </>  
+          </div>  
         );
       } else if(currentQuestion.type === "text") {
         input = (
@@ -265,8 +268,8 @@ class TokenSurvey2 extends Component {
     }
 
     if(this.state.currentlyLoading) {
-      return (
-      <div className="container d-flex justify-content-center">
+      toRender = (
+      <div className="d-flex justify-content-center">
         <Spinner color="primary" style={{ width: '3rem', height: '3rem' }} className="mt-5"/>
       </div>
       );
@@ -303,7 +306,7 @@ class TokenSurvey2 extends Component {
         } else if(this.state.showQuestion) {
           questionContent = (
             <>
-            <Alert color="primary" className="mt-3">
+            <Alert color="primary" className="mt-3 text-center">
               {currentQuestion.question}
             </Alert>
             <div className="centered">
@@ -313,20 +316,20 @@ class TokenSurvey2 extends Component {
             );
         } 
 
-        return (
-          <div className="container d-flex justify-content-center">
-            <h1 className="mt-3">Survey{this.state.vehicleName}</h1>
+        toRender = (
+          <>
+            <h1 className="mt-3 text-center">Survey{this.state.vehicleName}</h1>
 
             {questionContent}
             
-          </div>
+          </>
         );
 
     } else {  // todo center the <p> text here
 
 
 
-      return (
+      toRender = (
         <div className="container d-flex justify-content-center">
           <Alert color="danger" className="mt-5">
             {this.state.errorMsg}
@@ -335,9 +338,15 @@ class TokenSurvey2 extends Component {
       );
     }
 
-    
-
-    
+    return (
+      <div className="container">
+        <div className="row d-flex justify-content-center">
+          <div className="col-md-10">
+            {toRender}
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 
