@@ -30,6 +30,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+app.use(express.static('public'));
+
+app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
+
 /*
 // Serve the static files from the React app, this may not necessarily be needed
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -369,9 +373,6 @@ app.get('*', (req,res) =>{
 
 
 
-app.use(express.static('public'));
-
-app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log('Server running on port ' + port));
