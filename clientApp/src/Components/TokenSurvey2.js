@@ -1,7 +1,7 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import '../css/spinner.css';
 
-import { Alert, Button, Badge } from 'reactstrap'; 
+import { Alert, Button, Spinner } from 'reactstrap'; 
 
 class TokenSurvey2 extends Component {
 
@@ -22,7 +22,9 @@ class TokenSurvey2 extends Component {
       
       showQuestion: true,
 
-      submissionSuccessful: false
+      submissionSuccessful: false,
+
+      currentlyLoading = true,
     };
   }
 
@@ -39,8 +41,6 @@ class TokenSurvey2 extends Component {
 
   onInputClick(yesBool, e) {
     console.log("value = " + this.state.currentIncr + " is " + yesBool);
-
-
 
     var answers = this.state.answers;
     answers[this.state.currentIncr].answer = yesBool;
@@ -104,8 +104,6 @@ class TokenSurvey2 extends Component {
   
         console.log(data)
 
-        
-
         if(data && !data.completed) {
           console.log("received survey");
 
@@ -124,16 +122,15 @@ class TokenSurvey2 extends Component {
           });
           
           this.setState({
-            //surveyId: data.SurveyId,
             questions: questions,
             answers : answers,
             vehicleName: " for " + data.vehicle.make,
-            //stockNo: stockNo,
-            //companyId: companyId
+            currentlyLoading: false
           });
         } else if(data.completed) {
           console.log("Survey has already been completed");
           this.setState({
+            currentlyLoading: false,
             error: true,
             errorMsg: "Error: Survey has already been completed"
           });
@@ -148,6 +145,7 @@ class TokenSurvey2 extends Component {
         {
           // make a change to state here
           this.setState({
+            currentlyLoading: false,
             error: true,
             errorMsg: "Error: Could not find survey"
           });
@@ -198,8 +196,7 @@ class TokenSurvey2 extends Component {
         });
       }
     });
-      
-      
+       
       /*
       (response.json())
     .then(data => console.log({data}))) // TODO place this in state
@@ -264,7 +261,13 @@ class TokenSurvey2 extends Component {
       </>);
     }
 
-    if(!this.state.error) {
+    if(this.state.currentlyLoading) {
+      return (
+      <>
+        <Spinner style={{ width: '3rem', height: '3rem' }} />
+      </>
+      );
+    } else if(!this.state.error) {
       
       /*
       return ( 
@@ -306,9 +309,6 @@ class TokenSurvey2 extends Component {
             </>
             );
         } 
-
-        
-
 
         return (
           <div className="container">
