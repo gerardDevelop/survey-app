@@ -56,7 +56,7 @@ app.get('/api/tokenSurvey', (req, res) => {
       
       if(vehicle && !vehicle.surveyCompleted) {
 
-        console.log("retrieved vechicle " + vehicle.stockNumber + " " + vehicle.make);
+        console.log("retrieved vehicle " + vehicle.stockNumber + " " + vehicle.make);
         
         // get templateId
         const templateId = vehicle.templateId;

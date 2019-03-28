@@ -209,14 +209,6 @@ class TokenSurvey2 extends Component {
 
   render() {
 
-    const mainCard = (
-      <div className="card mt-3 mb-4">
-            <div className="card-body">
-              <h2>Survey for Toyota Corolla 2018</h2>
-            </div>
-          </div>
-    );
-
     const initialQuestion = (
       <button>Start Survey?</button>
     );
@@ -267,8 +259,8 @@ class TokenSurvey2 extends Component {
       //var currentQuestion = this.state.questions[this.state.currentIncr].question;
 
       question = (<>
-            <p>{currentQuestion.question}</p>
-            {input}
+        <p>{currentQuestion.question}</p>
+        {input}
       </>);
     }
 
@@ -320,7 +312,7 @@ class TokenSurvey2 extends Component {
 
         return (
           <div className="container">
-            <h1><Badge color="secondary" className="mt-3">Survey{this.state.vehicleName}</Badge></h1>
+            <h1>Survey{this.state.vehicleName}</h1>
 
             {questionContent}
             
