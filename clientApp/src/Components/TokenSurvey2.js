@@ -312,7 +312,7 @@ class TokenSurvey2 extends Component {
 
         return (
           <div className="container">
-            <h1>Survey{this.state.vehicleName}</h1>
+            <h1 className="mt-3">Survey{this.state.vehicleName}</h1>
 
             {questionContent}
             
