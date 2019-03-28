@@ -164,10 +164,6 @@ app.use((req, res, next) => {
 */
 
 
-app.get('/hello', isAuthenticated, function(req, res) {
-  res.send('look at me!');
-});
-
 
 const isAuthenticated = (req, res, next) => {
   // do any checks you want to in here
