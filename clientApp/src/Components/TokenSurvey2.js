@@ -160,6 +160,8 @@ class TokenSurvey2 extends Component {
   sendAnswers() {
     console.log("sending answers");
     
+    this.setState({currentlyLoading: true});
+
     fetch('/api/tokenSurvey', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
@@ -192,7 +194,8 @@ class TokenSurvey2 extends Component {
       if(data.msg == "success") {
         // display thank you message to user
         this.setState({
-          submissionSuccessful: true
+          submissionSuccessful: true,
+          currentlyLoading: false
         });
       }
     });
@@ -263,9 +266,9 @@ class TokenSurvey2 extends Component {
 
     if(this.state.currentlyLoading) {
       return (
-      <>
-        <Spinner style={{ width: '3rem', height: '3rem' }} />
-      </>
+      <div className="container">
+        <Spinner color="primary" style={{ width: '3rem', height: '3rem' }} className="mt-5"/>
+      </div>
       );
     } else if(!this.state.error) {
       
