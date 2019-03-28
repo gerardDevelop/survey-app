@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
+
 
 /*
 // Serve the static files from the React app, this may not necessarily be needed
@@ -148,7 +148,7 @@ app.post('/api/register', (req, res) => {
 });
 
 /// protection route here ------
-
+/*
 app.use((req, res, next) => {
   
   const token = req.header('AuthToken');
@@ -161,6 +161,31 @@ app.use((req, res, next) => {
     res.status(401).json({err: "No token found"});
   }
 });
+*/
+
+
+app.get('/hello', isAuthenticated, function(req, res) {
+  res.send('look at me!');
+});
+
+
+const isAuthenticated = (req, res, next) => {
+  // do any checks you want to in here
+  const token = req.header('AuthToken');
+
+
+  // CHECK THE USER STORED IN SESSION FOR A CUSTOM VARIABLE
+  // you can do this however you want with whatever variables you set up
+  if (token == "abc123") {
+      return next();
+  }
+  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM SOMEWHERE
+  //res.redirect('/');
+  res.status(401).json({err: "no token"});
+}
+
+
+
 
 
 // PROTECTED ROUTES FROM NOW ON *******************************/
@@ -169,7 +194,7 @@ app.use((req, res, next) => {
 
 /********** TEMPLATE ROUTE **********/
 
-app.post('/api/another', (req, res) => {
+app.post('/api/another', isAuthenticated, (req, res) => {
   console.log("received another request");
 
   var another = req.body.another;
@@ -179,7 +204,7 @@ app.post('/api/another', (req, res) => {
   res.status(200).json({msg: "success"});
 });
 
-app.post('/api/template', (req, res) => {
+app.post('/api/template', isAuthenticated, (req, res) => {
   console.log("received post template request");
 
   var templateId = req.body.templateid;
@@ -219,26 +244,26 @@ app.post('/api/template', (req, res) => {
 
 });
 
-app.get('/api/template', (req, res) => {
+app.get('/api/template', isAuthenticated, (req, res) => {
   console.log("received get template request");
   res.json({msg : "ok"});
 });
 
 /********** COMPANY ROUTE **********/
 
-app.post('/api/company', (req, res) => {
+app.post('/api/company', isAuthenticated, (req, res) => {
   console.log("received post company request");
   res.json({msg : "ok"});
 });
 
-app.get('/api/company', (req, res) => {
+app.get('/api/company', isAuthenticated, (req, res) => {
   console.log("received get company request");
   res.json({msg : "ok"});
 });
 
 /********** VEHICLE SALE *********/
 
-app.post('/api/vehicle', (req, res) => {
+app.post('/api/vehicle', isAuthenticated, (req, res) => {
 
   /*
 
@@ -288,7 +313,7 @@ app.post('/api/vehicle', (req, res) => {
   });
 });
 
-app.get('/api/allcompletedsurveys', (req, res) => {
+app.get('/api/allcompletedsurveys', isAuthenticated, (req, res) => {
   const companyId = req.query.companyId;
 
   VehicleSaleModel.find({ companyId: companyId, surveyCompleted: true }, (err, vehicles) => {
@@ -304,7 +329,7 @@ app.get('/api/allcompletedsurveys', (req, res) => {
 });
 
 // get an array of all vehicles for a given companyId
-app.get('/api/allvehicles', (req, res) => {
+app.get('/api/allvehicles', isAuthenticated, (req, res) => {
   const companyId = req.query.companyId;
 
   VehicleSaleModel.find({ companyId: companyId }, (err, vehicles) => {
@@ -319,7 +344,7 @@ app.get('/api/allvehicles', (req, res) => {
   });
 });
 
-app.get('/api/vehicle', (req, res) => {
+app.get('/api/vehicle', isAuthenticated, (req, res) => {
 
   const companyId = req.query.companyId;
   const stockNumber = req.query.stockNumber;
@@ -353,7 +378,7 @@ app.post('/api/manyvehicles', (req, res) => {
 */
 
 // lets try finding, then deleting
-app.delete('/api/vehicle', (req, res) => {
+app.delete('/api/vehicle', isAuthenticated, (req, res) => {
   const companyId = req.body.CompanyId; // int
   const stockNumber = req.body.StockNumber; // int
 
@@ -372,7 +397,7 @@ app.get('*', (req,res) =>{
 */
 
 
-
+app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log('Server running on port ' + port));
