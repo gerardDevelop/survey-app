@@ -30,7 +30,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use(express.static('public'));
+//app.use(express.static('client/build'));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 
@@ -393,7 +394,11 @@ app.get('*', (req,res) =>{
 */
 
 
-app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
+//app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
+
+app.get('*', (req, res) =>{
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log('Server running on port ' + port));
