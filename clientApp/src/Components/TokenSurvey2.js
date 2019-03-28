@@ -24,7 +24,7 @@ class TokenSurvey2 extends Component {
 
       submissionSuccessful: false,
 
-      currentlyLoading = true,
+      currentlyLoading : true,
     };
   }
 
