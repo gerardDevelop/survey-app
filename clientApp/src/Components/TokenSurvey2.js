@@ -266,7 +266,7 @@ class TokenSurvey2 extends Component {
 
     if(this.state.currentlyLoading) {
       return (
-      <div className="container">
+      <div className="container d-flex justify-content-center">
         <Spinner color="primary" style={{ width: '3rem', height: '3rem' }} className="mt-5"/>
       </div>
       );
@@ -314,7 +314,7 @@ class TokenSurvey2 extends Component {
         } 
 
         return (
-          <div className="container">
+          <div className="container d-flex justify-content-center">
             <h1 className="mt-3">Survey{this.state.vehicleName}</h1>
 
             {questionContent}
@@ -327,7 +327,7 @@ class TokenSurvey2 extends Component {
 
 
       return (
-        <div className="container">
+        <div className="container d-flex justify-content-center">
           <Alert color="danger" className="mt-5">
             {this.state.errorMsg}
           </Alert>
