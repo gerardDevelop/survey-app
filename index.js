@@ -29,11 +29,8 @@ const companyModel = require('./models/Company'); // ? implement this
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 //app.use(express.static('client/build'));
 app.use(express.static(path.join(__dirname, 'clientApp/build')));
-
-
 
 /*
 // Serve the static files from the React app, this may not necessarily be needed
@@ -117,7 +114,6 @@ app.post('/api/tokenSurvey', (req, res) => {
   });  
 });
 
-
 // login
 
 app.post('/api/login', (req, res) => {
@@ -129,7 +125,9 @@ app.post('/api/login', (req, res) => {
 
   // use bcrypt to check password, for now just let it slide
 
-  var token = uuidv4();
+  //var token = uuidv4();
+
+  var token = uuid4().replace(/-/g, '');
 
   res.json({msg: 'success', token: token});
 
@@ -277,7 +275,7 @@ app.post('/api/vehicle', isAuthenticated, (req, res) => {
   var templateId = req.body.TemplateId; // int
 
   // generate
-  var token = uuidv4(); // for surveytoken
+  var token = uuid4().replace(/-/g, '')
 
   console.log("received request");
 
