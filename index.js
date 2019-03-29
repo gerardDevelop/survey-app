@@ -144,6 +144,8 @@ app.post('/api/register', (req, res) => {
 
   // authenticate RegToken
   
+  res.status(500).json({msg: "Cannot register at this time"});
+
 });
 
 /// protection route here ------
@@ -173,10 +175,10 @@ const isAuthenticated = (req, res, next) => {
   // you can do this however you want with whatever variables you set up
   if (token == "abc123") {
       return next();
-  }
+  } 
   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM SOMEWHERE
   //res.redirect('/');
-  res.status(401).json({err: "no token"});
+  res.status(401).json({err: "no auth token / token incorrect"});
 }
 
 
@@ -188,16 +190,6 @@ const isAuthenticated = (req, res, next) => {
 // todo - use middleware to protect these routes
 
 /********** TEMPLATE ROUTE **********/
-
-app.post('/api/another', isAuthenticated, (req, res) => {
-  console.log("received another request");
-
-  var another = req.body.another;
-
-  console.log("another = " + another);
-
-  res.status(200).json({msg: "success"});
-});
 
 app.post('/api/template', isAuthenticated, (req, res) => {
   console.log("received post template request");
@@ -309,7 +301,7 @@ app.post('/api/vehicle', isAuthenticated, (req, res) => {
 });
 
 app.get('/api/allcompletedsurveys', isAuthenticated, (req, res) => {
-  const companyId = req.query.companyId;
+  const companyId = req.query.CompanyId;
 
   VehicleSaleModel.find({ companyId: companyId, surveyCompleted: true }, (err, vehicles) => {
     if(vehicles) {
@@ -325,7 +317,7 @@ app.get('/api/allcompletedsurveys', isAuthenticated, (req, res) => {
 
 // get an array of all vehicles for a given companyId
 app.get('/api/allvehicles', isAuthenticated, (req, res) => {
-  const companyId = req.query.companyId;
+  const companyId = req.query.CompanyId;
 
   VehicleSaleModel.find({ companyId: companyId }, (err, vehicles) => {
     if(vehicles) {
@@ -341,8 +333,8 @@ app.get('/api/allvehicles', isAuthenticated, (req, res) => {
 
 app.get('/api/vehicle', isAuthenticated, (req, res) => {
 
-  const companyId = req.query.companyId;
-  const stockNumber = req.query.stockNumber;
+  const companyId = req.query.CompanyId;
+  const stockNumber = req.query.StockNumber;
 
   // return a given vehicle from its companyid and stockid or surveytoken?
   VehicleSaleModel.findOne({ companyId: companyId, stockNumber: stockNumber }, (err, vehicle) => {
