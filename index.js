@@ -383,6 +383,35 @@ app.delete('/api/vehicle', isAuthenticated, (req, res) => {
   });
 });
 
+app.delete('/api/allvehicles', isAuthenticated, (req, res) => {
+  const companyId = req.body.CompanyId; // int
+
+  VehicleSaleModel.deleteMany({ companyId: companyId }, function(err) {
+    if(err) {
+
+    } else {
+      console.log("successfully deleted many");
+
+      res.status(200).json({ msg: "Success" });
+    }
+  })
+
+/*
+  VehicleSaleModel.find({ companyId: companyId }, (err, vehicles) => {
+    
+    if(vehicles) {
+      vehicles.
+    } 
+  
+    //console.log(resp);
+    //res.json({resp: resp});
+
+    
+  });
+
+  */
+});
+
 /*
 // for serving react production build
 app.get('*', (req,res) =>{
