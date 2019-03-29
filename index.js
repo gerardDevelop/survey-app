@@ -127,7 +127,7 @@ app.post('/api/login', (req, res) => {
 
   //var token = uuidv4();
 
-  var token = uuid4().replace(/-/g, '');
+  var token = uuidv4().replace(/-/g, '');
 
   res.json({msg: 'success', token: token});
 
@@ -275,7 +275,7 @@ app.post('/api/vehicle', isAuthenticated, (req, res) => {
   var templateId = req.body.TemplateId; // int
 
   // generate
-  var token = uuid4().replace(/-/g, '')
+  var token = uuidv4().replace(/-/g, '')
 
   console.log("received request");
 
